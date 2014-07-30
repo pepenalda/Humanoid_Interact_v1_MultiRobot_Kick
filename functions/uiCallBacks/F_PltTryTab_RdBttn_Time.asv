@@ -1,0 +1,25 @@
+function F_PltTryTab_RdBttn_Time
+
+global TrayWalk
+global PltTryTab WlkTab
+global PlotT_Time
+global plotActual
+Value=get(PltTryTab.RdBttn_Time,'Value');
+
+Indice=0;
+hold on
+yLim=get(PltTryTab.axis,'YLim');
+if Value
+    for i=1:length(TrayWalk.t)
+        Indice=Indice+length(TrayWalk.t);
+        PlotT_Time{i}=plot(PltTryTab.axis,[WlkTab.t_Marcha(Indice), WlkTab.t_Marcha(Indice)],[yLim(1), yLim(2)],'--m');
+        %PlotT_Time{i}=plot([plotActual,WlkTab.t_Marcha(Indice), WlkTab.t_Marcha(Indice)],[yLim(1), yLim(2)],'--m');
+    end
+else
+    for i=1:length(PlotT_Time)
+        if exist('PlotT_Time')
+            delete(PlotT_Time{i});
+        end
+    end
+end
+hold off

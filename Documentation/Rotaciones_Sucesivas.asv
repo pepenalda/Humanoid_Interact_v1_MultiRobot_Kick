@@ -1,0 +1,15 @@
+function Rotaciones_Sucesivas
+
+syms phi th psi
+
+
+
+
+
+
+function R=Rot_X(ang)
+
+s_a=sin(ang);
+c_a=cos(ang);
+
+R=

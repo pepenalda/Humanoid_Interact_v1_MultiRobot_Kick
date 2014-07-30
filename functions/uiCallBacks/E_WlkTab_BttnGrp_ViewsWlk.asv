@@ -1,0 +1,25 @@
+function E_WlkTab_BttnGrp_ViewsWlk
+
+global Robot
+global vrFigure
+global WlkTab
+
+selected=get(WlkTab.uiBttnGrp_ViewsWlk,'SelectedObject');
+SlctdStrng=get(selected,'String');
+
+
+axes(Robot.plotRbt_Wlk);
+switch SlctdStrng
+    case 'Lateral'
+        view(0,0);
+        set(vrFigure,'Viewpoint','VPLat') % change viewpoint
+    case 'Perspectiva'
+        view(59,27);
+        set(vrFigure,'Viewpoint','VPPersp') % change viewpoint
+    case 'Front'
+        view(90,0);
+        set(vrFigure,'Viewpoint','VPFront') % change viewpoint
+    case 'Upper'
+        view(0,90);
+        set(vrFigure,'Viewpoint','VPSup') % change viewpoint
+end

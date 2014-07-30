@@ -1,0 +1,55 @@
+function bld_RST
+
+global Walk
+disp('Bld_RST');
+L5=7.7;
+
+th=deg2rad(Walk.Values_3(1));
+
+CP=[-2 0 10 0 th 0];
+
+r_Center_Pel(1)=CP(2);
+r_Center_Pel(2)=CP(3);
+r_Center_Pel(3)=CP(1);
+r_Center_Pel=r_Center_Pel.';
+
+%Right Leg
+PieDer_Rot_Pel_1=EulXZY_2_Rot(0,0,0);
+PieDer_Rot_Pel_2=EulXZY_2_Rot(th,0,0);
+
+W_R_Pel_Des=PieDer_Rot_Pel_1*PieDer_Rot_Pel_2;
+
+r_Center_RA=[-L5/2 0  0].';
+r_RA_Pel=r_Center_Pel-r_Center_RA;
+RA_T_Pel=[W_R_Pel_Des r_RA_Pel; [0 0 0 1]];
+thRLeg=RHipIK(RA_T_Pel);
+
+%Left Leg
+r_Center_LA=[L5/2 0  0].';
+r_LA_Pel=r_Center_Pel-r_Center_LA;
+LA_T_Pel=[W_R_Pel_Des r_LA_Pel; [0 0 0 1]];
+thLLeg=LHipIK(LA_T_Pel);
+
+th(7)=thRLeg(1);
+th(9)=thRLeg(2);
+th(11)=thRLeg(3);
+th(13)=thRLeg(4);
+th(15)=thRLeg(5);
+th(17)=thRLeg(6);
+th(8)=thLLeg(1);
+th(10)=thLLeg(2);
+th(12)=thLLeg(3);
+th(14)=thLLeg(4);
+th(16)=thLLeg(5);
+th(18)=thLLeg(6);
+
+th(1)=deg2rad(-Walk.Values_1(11));
+th(3)=deg2rad(-Walk.Values_1(12));
+th(5)=deg2rad(-Walk.Values_1(13));
+
+th(2)=deg2rad(Walk.Values_1(11));
+th(4)=deg2rad(Walk.Values_1(12));
+th(6)=deg2rad(Walk.Values_1(13));
+
+th*
+%set_all_positions_time(th,2);

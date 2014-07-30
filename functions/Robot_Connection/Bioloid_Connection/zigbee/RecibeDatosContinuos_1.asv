@@ -1,0 +1,37 @@
+function Datos_Out=RecibeDatosContinuos_1(N)
+
+Receive=1;
+Errors=0;
+i=1;
+while Errors < 100
+    [s,Dato]=RecibeUnDato;
+    if s
+        i
+        Datos(i)=Dato;
+        Errors=0;
+        i=i+1;
+        %s=sprintf('No. Datos received: %i received \r',i);
+        %disp(s);
+    else
+        Errors=Errors+1;
+    end
+end
+if exist('Datos','var')
+    L=length(Datos)
+    Indices=find(Datos==hex2dec('ffff'));
+    size(Indices)
+    Indice_Datos_R=1;
+    for Indice=i:Length(Indices-1)
+        Dato_R=Datos(Indices(i):Indices(i)+N);
+        if (Indices(i+1)==Indices(i))
+        else
+            Dato_R(Indice_Datos_R)=Datos(Indices(i+1):Indices(i)+N);
+            Indice_Datos_R=Indice_Datos_R+1;
+        end
+    Datos_Out=Datos;    
+else
+    Datos_Out=0;
+end
+
+
+

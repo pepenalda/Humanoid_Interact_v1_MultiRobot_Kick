@@ -1,0 +1,53 @@
+function C_IKTab_RdBttn_SupRight
+
+global Robot
+global IKTab
+
+ID_Motors_RightLeg=[7 9 11 13 15 17];
+ID_Motors_LeftLeg=[8 10 12 14 16 18];
+
+hObject=IKTab.RdBttn_SupRight;
+button_state = get(hObject,'Value');
+
+if button_state == get(hObject,'Max')
+    set(IKTab.RdBttn_DSup,'Value',get(IKTab.RdBttn_DSup,'Min')); 
+    set(IKTab.RdBttn_SupLeft,'Value',get(IKTab.RdBttn_SupLeft,'Min'));
+    if Robot.IK_Key==5 | Robot.IK_Key==4
+        activateIK
+    else if Robot.IK_Key==3
+            UnactivateIK
+        end
+    end    
+    set_hip_RightSupport;
+else
+    if Robot.IK_Key==5 | Robot.IK_Key==4 | Robot.IK_Key==3
+        UnactivateIK
+    end    
+    Robot.w_R_o=[1 0 0; 0 1 0; 0 0 1]; Robot.w_R_o=[0 200 0].';
+    vrot=vrrotmat2vec(Robot.w_R_o);
+    setfield(Robot.vrRobot,'translationHips',w_p_o.');
+    setfield(Robot.vrRobot,'rotationHips',vrot);        
+end
+
+%CllBk_uiSlider_Pos(H,['5' '1'],get(H.uiSlider_Ori{5,1},'Value'),1);
+PlotBLD(IKTab.Panel_PLotIK)
+
+function activateIK
+global IKTab
+for j=1:3
+    set(IKTab.Slider_Pos{j},'Enable','on');
+    set(IKTab.Edit_Pos{j},'Enable','on');
+    set(IKTab.Slider_Ori1{j},'Enable','on');
+    %set(IKTab.Edit_Ori1{j},'Enable','on');
+    set(IKTab.Edit_Ori{j},'Enable','on');    
+end
+
+function UnactivateIK
+global IKTab
+for j=1:3
+    set(IKTab.Slider_Pos{j},'Enable','off');
+    set(IKTab.Edit_Pos{j},'Enable','off');
+    set(IKTab.Slider_Ori1{j},'Enable','off');
+    %set(IKTab.Edit_Ori1{j},'Enable','off');
+    set(IKTab.Edit_Ori{j},'Enable','off');    
+end

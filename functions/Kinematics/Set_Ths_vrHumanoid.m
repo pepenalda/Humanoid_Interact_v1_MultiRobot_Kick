@@ -1,0 +1,13 @@
+function Set_Ths_vrHumanoid(vals)
+global Robot
+global IKTab
+
+for i=1:Robot.N
+    String_i=num2str(i,'%02d');
+    String_MotorField_i=['rotation_Servo' num2str(i,'%d')];
+    vecrot_i=getfield(Robot.vrRobot,String_MotorField_i);
+    setfield(Robot.vrRobot,String_MotorField_i,[vecrot_i(1:3) vals(i)]);
+    set(IKTab.Slider_Art{i},'Value',vals(i));
+    set(IKTab.Edit_Art{i},'String',num2str(vals(i)*180/pi,'%03.1f'));    
+    set(IKTab.Edit_Art{i},'BackgroundColor','w');
+end

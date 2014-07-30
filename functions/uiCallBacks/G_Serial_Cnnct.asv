@@ -1,0 +1,9 @@
+function G_Serial_Cnnct
+global Cnnct
+global PPup_Port PPup_Baudrate Ports StringBaudRate
+
+V1=Ports(get(PPup_Port,'value'));
+V2=StringBaudRate{get(PPup_Baudrate,'value')};
+A03_open_serial_port(V1,V2); 
+
+close(Cnnct.Figure_Cnnct);

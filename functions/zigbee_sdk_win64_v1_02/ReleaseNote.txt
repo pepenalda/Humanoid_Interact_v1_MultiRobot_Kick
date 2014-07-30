@@ -1,0 +1,21 @@
+==============================================
+    Zigbee SDK for Win64 v1.02
+==============================================
+
+- Fixed bug when select port number over 10, can not be initialized.
+
+
+
+==============================================
+    Zigbee SDK for Win64 v1.01
+==============================================
+
+- Solved problem that can not run example on some system.
+
+
+
+===================================
+    Zigbee SDK for Win64 v1.00
+===================================
+
+- First released

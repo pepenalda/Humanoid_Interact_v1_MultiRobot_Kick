@@ -1,0 +1,13 @@
+function E_WlkTab_PshBttnLEER_DE_DD
+global Walk
+
+uiopen('WalkingParameters/FileName.mat')
+
+for i=1:length(Walk.Values_1)
+    set(WlkTab.Edit_PRM_1{i_Sldr},'string',num2str(Walk.Values_1(i)));
+    set(WlkTab.Slider_PRM_1{i_Edt},'value',Walk.Values_1(i));
+end
+for i=1:length(Walk.Values_2)
+    set(WlkTab.Edit_PRM_2{i},'string',num2str(Walk.Values_2(i)));
+    set(WlkTab.Slider_PRM_2{i},'value',Walk.Values_2(i));
+end

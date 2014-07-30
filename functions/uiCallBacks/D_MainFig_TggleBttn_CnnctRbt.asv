@@ -1,0 +1,70 @@
+function D_MainFig_TggleBttn_CnnctRbt
+
+global IKTab WlkTab
+global Strct_MainFigure
+
+global CnnctnType
+
+hObject=Strct_MainFigure.TgglBttn_CnnctRbt;
+button_state = get(hObject,'Value');
+
+String_1={'Toss Mode', '(Seral Cable or ZigBee)'};
+String_2={'Dynamixel TTL'};
+String_3={'Serial','\rm(Special Firmware)'};
+String_4={'Walk ZigBee','\rm(Special Firmware)'};
+
+if button_state == 1
+    disp('connect')
+    Figure=dialog('Name','Connect to Bioloid','MenuBar','none','Toolbar','none','units','normalized',...
+        'OuterPosition',[0.4 , 0.4, 0.4, 0.2],'CloseRequestFcn','global Strct_MainFigure set(Strct_MainFigure.TgglBttn_CnnctRbt,''value'',0)');
+    uibutton('Parent',Figure, 'Style','pushbutton','units','normalized', 'Position',[0.01 0.4 0.22 0.3],...
+        'Callback', 'A01_Message(1); closereq;','String',String_1);
+    
+    uicontrol('Parent',Figure, 'Style','pushbutton','units','normalized', 'Position',[0.26 0.4 0.22 0.3],...
+        'Callback', 'A01_Message(2); closereq;','String',String_2,'enable','off');
+
+    uibutton('Parent',Figure, 'Style','pushbutton','units','normalized', 'Position',[0.51 0.4 0.22 0.3],...
+        'Callback', 'A01_Message(3); closereq;','String',String_3,'enable','on');
+
+    uibutton('Parent',Figure, 'Style','pushbutton','units','normalized', 'Position',[0.76 0.4 0.22 0.3],...
+        'Callback', 'A01_Message(4); closereq;','String',String_4,'enable','on');
+else
+    disp('disconnect')
+    if ne(CnnctnType,0)
+        switch CnnctnType
+            case {1,3}
+                close_serial_port;
+                set(IKTab.PshBttn_GtAngls,'Enable','off');
+                set(IKTab.PshBttn_StAngls,'Enable','off');
+                set(IKTab.PshBttn_AllTrqsOn,'Enable','off');
+                set(IKTab.PshBttn_AllTrqsOff,'Enable','off');
+                set(IKTab.RdBttn_IKMvRbt,'Enable','off');
+                for i=1:18
+                    set(IKTab.RdBttn_Art{i},'Enable','off');
+                end
+                set(MainFig.RdBttn_CnnctRbt,'String','Cnnctn Type');
+            case 4
+                if libisloaded('zigbee')
+                    calllib('zigbee', 'zgb_terminate');
+                    unloadlibrary('zigbee')
+                end
+                for i=1:3
+                    set(WlkTab.PshBttnMARCHA{i},'Enable','off');
+                end
+                set(WlkTab.uiPnl_RdBttnIKPC,'Value',1);
+                set(WlkTab.uiPnl_RdBttnIKRobot,'Value',0);
+                set(WlkTab.uiPnl_RdBttnIKRobot,'Enable','off');                
+                set(WlkTab.PshBttnGUARDAR{1},'Enable','off');
+                set(WlkTab.PshBttnGUARDAR{2},'Enable','off');
+                set(Strct_MainFigure.RdBttn_CnnctRbt,'String','Cnnctn Type');
+                for i=1:6
+                    set(WlkTab.SendButton{i},'Enable','off');
+                    set(WlkTab.RcvButton{i},'Enable','off');
+                end
+                set(WlkTab.SendButton{8},'Enable','off');
+                set(WlkTab.RcvButton{8},'Enable','off');                
+        end
+        set(Strct_MainFigure.RdBttn_CnnctRbt,'Value',0);
+        set(Strct_MainFigure.TgglBttn_CnnctRbt,'String','Connect Robot');
+    end
+end

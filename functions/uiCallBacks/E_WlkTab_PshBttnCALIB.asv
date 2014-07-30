@@ -1,0 +1,90 @@
+function E_WlkTab_PshBttnCALIB(ClickedBttnCALIB,Ctrl)
+global RRobot
+
+Key_PRTCL=get(ClickedBttnCALIB,'String');
+switch 
+key=get(ClickedBttnCALIB,'Tag');
+% selectedMetod=get(WlkTab.uiPnl_MethodBttnGrp,'SelectedObject');
+% SlctdMetodStrng=get(selectedMetod,'String');
+if Ctrl
+    set(WlkTab.uiPnl_Step1,'Value',0);
+    set(WlkTab.uiPnl_Step2,'Value',1);
+end
+
+switch key
+    case 'A'
+        ClickParameter(1)
+    case 'B'
+        ClickParameter(2)
+    case 'C'
+        ClickParameter(3)
+    case 'G'
+        ClickParameter(4)
+    case 'L'
+        ClickParameter(5)        
+end
+
+function ClickParameter(Numero)
+global WlkTab
+selectedMetod=get(WlkTab.uiPnl_MethodBttnGrp,'SelectedObject');
+SlctdMetodStrng=get(selectedMetod,'String');
+MuestraPanel(Numero);
+claves= {'z','e','c','o','p','r','r','s'};
+claves2={'y','d','b','n','m','q','q','t'};
+if strcmp(SlctdMetodStrng,'Robot')
+    if get(WlkTab.uiPnl_Step2,'Value')==1
+        Result=fnc_LanzaUnDato(claves{Numero});
+    else
+        Result=fnc_LanzaUnDato(claves2{Numero});
+    end
+    if Result
+        ActualizaPanel(Numero);
+    else
+        LimpiaPanel(Numero);
+    end
+else
+    ActualizaPanel(Numero);
+end
+
+function LimpiaPanel(i)
+global WlkTab
+if (i==6) | (i==8) 
+    C=10;
+    for j=1:2
+        for k=1:5
+            if (i==6)
+                set(WlkTab.ParEdit{5+j-1}{k},'String','');
+            else
+                set(WlkTab.ParEdit{7+j-1}{k},'String','');
+            end
+        end
+    end
+else
+    [R C]=size(WlkTab.Types{i});
+    for j=1:C
+        set(WlkTab.ParEdit{i}{j},'String','');
+    end
+end
+
+function MuestraPanel(i)
+global WlkTab
+Vis7=0;
+for j=1:9
+    if j==i
+        set(WlkTab.PnlsPrmtrs{j},'visible','on');
+        if (j==6) | (j==8)
+            if (j==6)
+                set(WlkTab.PnlsPrmtrs{7},'visible','on');
+                set(WlkTab.PnlsPrmtrs{8},'visible','off');
+                set(WlkTab.PnlsPrmtrs{9},'visible','off');
+            else
+                set(WlkTab.PnlsPrmtrs{9},'visible','on');
+            end
+            Vis7=1;
+        end
+    else
+        if Vis7==0
+            set(WlkTab.PnlsPrmtrs{j},'visible','off');
+        end
+    end
+end

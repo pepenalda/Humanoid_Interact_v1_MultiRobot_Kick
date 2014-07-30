@@ -1,0 +1,15 @@
+function Result=fnc_LanzaUnDato(Dato)
+
+global RdBttn_Online TglBttn_Online
+
+%val=get(TglBttn_Online,'value');
+%if val==1
+result=calllib('zigbee', 'zgb_tx_data', int32(Dato));
+if result==0
+    disp('Failed to transmit');
+    Result=0;
+else
+    s=sprintf('Dato: %s transmitted',char(int32(Dato)));
+    disp(s);
+    Result=1;
+end

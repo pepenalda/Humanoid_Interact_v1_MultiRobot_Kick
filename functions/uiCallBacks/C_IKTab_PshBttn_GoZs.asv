@@ -1,0 +1,9 @@
+function C_IKTab_PshBttn_GoZs
+
+global Robot
+global IKTab
+
+vals=Robot.Ths_Zs;
+
+
+PlotBLD(IKTab.Panel_PLotIK)

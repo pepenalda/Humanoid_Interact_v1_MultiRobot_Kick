@@ -1,0 +1,123 @@
+function C_IKTab_RdBttn_DSup
+
+global Robot
+global vrHumanoid
+global IKTab
+global IK_Key
+global MainWindow
+
+ID_Motors_RightLeg=[7 9 11 13 15 17];
+ID_Motors_LeftLeg=[8 10 12 14 16 18];
+
+hObject=IKTab.RdBttn_DSup;
+button_state = get(hObject,'Value');
+
+if button_state == 1
+    set(IKTab.RdBttn_SupLeft,'Value',0); 
+    set(IKTab.RdBttn_SupRight,'Value',0);
+    if IK_Key==5
+        activateIK
+    else if IK_Key==3 | IK_Key==4
+            UnactivateIK
+        end
+    end
+else
+    if IK_Key==5 | IK_Key==4 | IK_Key==3
+        activateIK 
+    end
+    w_R_o=[1 0 0; 0 1 0; 0 0 1]; w_p_o=[0 300 0].';
+    vrot=vrrotmat2vec(w_R_o);
+    setfield(vrHumanoid,'translationHips',w_p_o.');
+    setfield(vrHumanoid,'rotationHips',vrot);    
+    EqLegs=0;
+end
+PlotBLD(IKTab.Panel_PLotIK)
+
+function activateIK
+global IKTab
+for j=1:3
+    set(IKTab.Slider_Pos{j},'Enable','on');
+    set(IKTab.Edit_Pos{j},'Enable','on');
+    set(IKTab.Slider_Ori1{j},'Enable','on');
+    set(IKTab.Edit_Ori1{j},'Enable','on');
+    set(IKTab.Edit_Ori{j},'Enable','on');    
+end
+
+function UnactivateIK
+global IKTab
+for j=1:3
+    set(IKTab.Slider_Pos{j},'Enable','off');
+    set(IKTab.Edit_Pos{j},'Enable','off');
+    set(IKTab.Slider_Ori1{j},'Enable','off');
+    set(IKTab.Edit_Ori1{j},'Enable','off');
+    set(IKTab.Edit_Ori{j},'Enable','off');    
+end
+
+function [xRA yRA zRA rpyL_pd1 rpyL_pd2 rpyL_pd3]=RF_DK
+L5=38.5;
+L6=31;
+L7=75;
+L8=14.5;
+k=0.707;
+
+global vrHumanoid
+N=18;
+for i=1:N
+    String_i=num2str(i,'%02d');
+    String_MotorField_i=['rotation_Servo' num2str(i,'%d')];
+    vecrot_i=getfield(vrHumanoid,String_MotorField_i);
+    th(i)=vecrot_i(4);
+end
+%posicion
+th7p=th(7)+pi/4;
+th7pDeg=th7p*180/pi;
+c7p=cos(th7p);
+s7p=sin(th7p);
+c9=cos(th(9));
+s9=sin(th(9));
+s11=sin(th(11));
+c11=cos(th(11));
+s11_13=sin(th(11)-th(13));
+c11_13=cos(th(11)-th(13));
+
+xRA=(s7p*(L7*(s11+s11_13)+L8*(c11-c11_13))+c7p*s9*(L7*(c11+c11_13)+L8*(-s11+s11_13))-L5)/10;
+yRA=(-c9*(L7*(c11+c11_13)+L8*(-s11+s11_13))-L6)/10;
+zRA=(-c7p*(L7*(s11+s11_13)+L8*(c11-c11_13))+s7p*s9*(L7*(c11+c11_13)+L8*(-s11+s11_13)))/10;
+rpyL_pd=[th(9)-th(17) th(11)-th(13)-th(15) -(th(7)+pi/4)]*180/pi;
+rpyL_pd1=rpyL_pd(1);
+rpyL_pd2=rpyL_pd(2);
+rpyL_pd3=rpyL_pd(3);
+
+function [xLA yLA zLA rpyL_pi1 rpyL_pi2 rpyL_pi3 ]=LF_DK
+L5=38.5;
+L6=31;
+L7=75;
+L8=14.5;
+k=0.707;
+global vrHumanoid
+N=18;
+for i=1:N
+    String_i=num2str(i,'%02d');
+    String_MotorField_i=['rotation_Servo' num2str(i,'%d')];
+    vecrot_i=getfield(vrHumanoid,String_MotorField_i);
+    th(i)=vecrot_i(4);
+end
+%posicion
+th8p=th(8)-pi/4;
+th8pDeg=th8p*180/pi;
+c8p=cos(th8p);
+s8p=sin(th8p);
+c10=cos(th(10));
+s10=sin(th(10));
+s12=sin(th(12));
+c12=cos(th(12));
+s12_14=sin(th(12)-th(14));
+c12_14=cos(th(12)-th(14));
+
+xLA=(-s8p*(L7*(s12+s12_14)+L8*(-c12+c12_14))+c8p*s10*(L7*(c12+c12_14)+L8*(s12-s12_14))+L5)/10;
+yLA=(-c10*(L7*(c12+c12_14)+L8*(s12-s12_14))-L6)/10;
+zLA=(c8p*(L7*(s12+s12_14)+L8*(-c12+c12_14))+s8p*s10*(L7*(c12+c12_14)+L8*(s12-s12_14)))/10;
+rpyL_pi=[th(10)-th(18) -th(12)+th(14)+th(16) -(th(8)-pi/4)]*180/pi;
+rpyL_pi1=rpyL_pi(1);
+rpyL_pi2=rpyL_pi(2);
+rpyL_pi3=rpyL_pi(3);

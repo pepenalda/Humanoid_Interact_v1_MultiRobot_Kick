@@ -1,0 +1,45 @@
+function A_Tabs_PshBttn_WlkPrm
+
+global Strct_MainFigure
+
+if isfield(Strct_MainFigure,'Panel_VRMLTab')
+    delete(Strct_MainFigure.Panel_VRMLTab);
+    Strct_MainFigure=rmfield(Strct_MainFigure,'Panel_VRMLTab')
+end
+if exist('VRMLTab','var')
+    clear global VRMLTab
+end
+
+if isfield(Strct_MainFigure,'Panel_KinTab')
+    delete(Strct_MainFigure.Panel_KinTab);
+    Strct_MainFigure=rmfield(Strct_MainFigure,'Panel_KinTab')
+end
+if exist('IKTab','var')
+    clear global IKTab
+end
+
+if isfield(Strct_MainFigure,'Panel_PlotsTab')
+    delete(Strct_MainFigure.Panel_PlotsTab);
+end
+if exist('PltTryTab','var')
+    clear global PltTryTab
+end
+
+A06_WalkTab;
+
+% set(WlkTab.TggleBttn_PlayAnimation,'Parent',Strct_MainFigure.Panel_WalkTab);
+% set(WlkTab.TggleBttn_PlayAnimation,'Position',[0.02 0.815 0.07 00.05]);
+% set(WlkTab.Slider_TimePlayAnimation,'Parent',Strct_MainFigure.Panel_WalkTab);
+% set(WlkTab.Slider_TimePlayAnimation,'Position',[0.02 0.77 0.31 0.025]);
+% set(WlkTab.Edit_TimePlayAnimation,'Parent',Strct_MainFigure.Panel_WalkTab);
+% set(WlkTab.Edit_TimePlayAnimation,'Position',[0.34 0.77 0.04 0.05]);
+% set(WlkTab.Text_TimePlayAnimation,'Parent',Strct_MainFigure.Panel_WalkTab);
+% set(WlkTab.Text_TimePlayAnimation,'Position',[0.09 0.82 0.06 0.03]);
+% set(WlkTab.PpupMenu_Acelerar,'Parent',Strct_MainFigure.Panel_WalkTab);
+% set(WlkTab.PpupMenu_Acelerar,'Position',[0.16 0.84 0.06 0.02]);
+% set(WlkTab.uiBttnGrp_ViewsWlk,'Parent',Strct_MainFigure.Panel_WalkTab);
+% %Panel del Plot
+% set(WlkTab.Panel_PLotIK,'Parent',Strct_MainFigure.Panel_WalkTab);
+% set(WlkTab.Panel_PLotIK,'Position',[0.02 0.07 0.35 0.69]);
+% 
+% PlotBLD_Wlk(WlkTab.Panel_PLotIK);

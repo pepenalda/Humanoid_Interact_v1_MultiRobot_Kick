@@ -1,0 +1,28 @@
+function A_Tabs_PshBttn_IK
+
+global Strct_MainFigure
+global Robot
+
+if isfield(Strct_MainFigure,'Panel_VRMLTab') && isvalid (Strct_MainFigure.Panel_VRMLTab)
+    delete(Strct_MainFigure.Panel_VRMLTab);
+end
+if exist('VRMLTab','var')
+    clear global VRMLTab
+end
+
+if Robot.Connectable
+    if isfield(Strct_MainFigure,'Panel_WalkTab') && isvalid (Strct_MainFigure,'Panel_KinTab')
+        delete(Strct_MainFigure.Panel_KinTab);
+    end
+    if exist('WlkTab','var')
+        clear global WlkTab
+    end
+    if isfield(Strct_MainFigure,'Panel_PlotsTab') && isvalid (Strct_MainFigure,'Panel_KinTab')
+        delete(Strct_MainFigure.Panel_KinTab);
+    end        
+    if exist('PltTryTab','var')
+        clear global PltTryTab
+    end
+end
+
+A05_KinematicsTab;
